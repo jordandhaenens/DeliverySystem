@@ -12,12 +12,14 @@ for each truck
 
 Provide a high level outline for how these classes will be used to maintain a
 current “state”:
+
     A SQL Server service can be utilized to notify the desktop app when a truck has updated
     the database. This prompt triggers a GET request from the desktop app to update the dispatcher's
     view of the trucks.
 
 Describe how we will store and retrieve information from a SQL database for a
 recorded fuel stop:
+
     The WebService API will be the gateway to the SQL database. It could have one, two,
     or three interfaces to controll specific requests to the DB. In my diagram I have listed
     three interfaces to create an additional layer of abstraction and separation of duties, 
@@ -30,11 +32,6 @@ recorded fuel stop:
     is then able to send NextStopIDs to each truck that is waiting (we could add an extra boolean
     to one of the tables to indicate this).
 
-
-
-*Trucks* Class matching DB table
-*TruckViewModel* Class that queries previously posted data and incoming data
-*FuelDeliveryEvent* Class matching DB table
 
 ### Trucks Controller Class
 
@@ -64,14 +61,34 @@ GET: .../Query
 // This method receives a query from any authorized point and converts it to a SQL 
 command. It then returns the results of the given query
 
+
+### Additional Classes
+
+**Trucks Class** matching DB table
+**TruckViewModel Class** that queries previously posted data and incoming data
+**FuelDeliveryEvent Class** matching DB table
+
+
 ## DeskTop App Classes and Methods
+
+    I don't know exactly how I would build out the Desktop App and I don't have enough 
+    information to build a complete outline of classes for it. I failed to ask the right 
+    questions before the weekend started.
+
+    I assume the dispatcher would have a GUI / map overlay to interact with and see
+    stops and trucks as their information is updated. There would need to be a DataFactory 
+    Controller to handle the outgoing API calls and make the response available to the other
+    classes in the Desktop App. Additionally there would need to be Truck and Stop classes 
+    to handle the data from the DB.
 
 
 
 ## SQL Queries
-    I built the database these queries were written against using DB Browser and SQLite. The .db file and SQLite queries are both in this repo if you wish to run them.
+    I built the database these queries were written against using DB Browser and SQLite. 
+    The .db file and SQLite queries are both in this repo if you wish to run them.
 
     // Top 10 fuel consuming “Stops” over the past 12 months
+
     select StopID, FuelDeliveredPercent, DeliveryTime 
     from FuelDeliveryEvent 
     inner join DeliveryEventStops on DeliveryEventStops.FuelDeliveryEventID = FuelDeliveryEvent.FuelDeliveryEventID
@@ -80,7 +97,9 @@ command. It then returns the results of the given query
     FuelDeliveredPercent desc
     limit 10;
 
+
     // Average fuel consumption per delivery, listed by “Stop” for the month
+
     select StopID, AVG(FuelDeliveredPercent) as "Average Delivery"
     from FuelDeliveryEvent 
     inner join DeliveryEventStops on DeliveryEventStops.FuelDeliveryEventID = FuelDeliveryEvent.FuelDeliveryEventID
