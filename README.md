@@ -4,48 +4,65 @@
 1. One truck per operating region
 1. Truck capacities will be static
 1. Desktop App design requirements still need to be discussed with PO
+1. The burden on the dispatcher could be greatly relieved by uploading predetermined routes
+for each truck
 
 
 ## WebService API Classes and Methods
 
-    *Provide a high level outline for how these classes will be used to maintain a
-    current “state”*:
+Provide a high level outline for how these classes will be used to maintain a
+current “state”:
     A SQL Server service can be utilized to notify the desktop app when a truck has updated
     the database. This prompt triggers a GET request from the desktop app to update the dispatcher's
     view of the trucks.
 
+Describe how we will store and retrieve information from a SQL database for a
+recorded fuel stop:
+    The WebService API will be the gateway to the SQL database. It could have one, two,
+    or three interfaces to controll specific requests to the DB. In my diagram I have listed
+    three interfaces to create an additional layer of abstraction and separation of duties, 
+    however, you could just as easily have all of these methods live in a controller on the
+    API.
 
-    *Trucks* Class matching DB table
-    *TruckViewModel* Class that queries previously posted data and incoming data
-    *FuelDeliveryEvent* Class matching DB table
+    Trucks post their status to the DB at the end of each stop and then request their NextStop
+    until the NextStopID no longer matches their CurrentStopID and is not null. The desktop
+    app requests the status of all trucks each time there is an update to the DB and the dispatcher
+    is then able to send NextStopIDs to each truck that is waiting (we could add an extra boolean
+    to one of the tables to indicate this).
+
+
+
+*Trucks* Class matching DB table
+*TruckViewModel* Class that queries previously posted data and incoming data
+*FuelDeliveryEvent* Class matching DB table
 
 ### Trucks Controller Class
 
-    GET: .../AllTrucks
-    // This method queries the DB and returns **CurrentStop**, **NextStop**(nullable), and 
-    **CurrentFuelLevel** for all trucks
+GET: .../AllTrucks
+// This method queries the DB and returns **CurrentStop**, **NextStop**(nullable), and 
+**CurrentFuelLevel** for all trucks
 
-    POST: .../Truck/TruckID
-    // This method receives a truck's **TruckID**, **CurrentStop**, and **CurrentFuelLevel** 
-    at the endstage of a stop. Using a ViewModel, it queries the DB for the truck's 
-    previous CurrentFuelLevel and calculates TotalFuelDelivered for CurrentStop. It then 
-    updates the appropriate tables in DB with **TruckID**, **CurrentStopID**, **FuelLevelPercent**, and 
-    **FuelDeliveredPercent**
+POST: .../Truck/TruckID
+// This method receives a truck's **TruckID**, **CurrentStop**, and **CurrentFuelLevel** 
+at the endstage of a stop. Using a ViewModel, it queries the DB for the truck's 
+previous CurrentFuelLevel and calculates TotalFuelDelivered for CurrentStop. It then 
+updates the appropriate tables in DB with **TruckID**, **CurrentStopID**, **FuelLevelPercent**, and 
+**FuelDeliveredPercent**
 
 ### Stops Controller Class
 
-    GET: .../NextStop/TruckID
-    // This method queries the DB and returns the **NextStopID** for the given **TruckID**
+GET: .../NextStop/TruckID
+// This method queries the DB and returns the **NextStopID** for the given **TruckID**
 
-    POST: .../NextStop/TruckID
-    // This method updates the Trucks table with the **NextStopID** for the truck matching the given 
-    **TruckID**
+POST: .../NextStop/TruckID
+// This method updates the Trucks table with the **NextStopID** for the truck matching the given 
+**TruckID**
 
 ### DatabaseInterface Class
 
-    GET: .../Query
-    // This method receives a query from any authorized point and converts it to a SQL 
-    command. It then returns the results of the given query
+GET: .../Query
+// This method receives a query from any authorized point and converts it to a SQL 
+command. It then returns the results of the given query
 
 ## DeskTop App Classes and Methods
 
