@@ -3,6 +3,7 @@
 1. Trucks are limited to a single operating region each
 1. One truck per operating region
 1. Truck capacities will be static
+1. Desktop App design requirements still need to be discussed with PO
 
 
 ##WebService API Classes and Methods
@@ -29,4 +30,5 @@
     // This method receives a query from any authorized point and converts it to a SQL command. It then returns the results of the given query
 
 ##DeskTop App Classes and Methods
+    
     
