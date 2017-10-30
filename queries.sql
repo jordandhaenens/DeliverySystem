@@ -24,11 +24,18 @@ values (null, 1, 1, 1),
 (null, 2, 6, 1),
 (null, 1, 7, 1);
 
-select FuelDeliveredPercent, DeliveryTime, StopID
+select StopID, FuelDeliveredPercent, DeliveryTime 
 from FuelDeliveryEvent 
 inner join DeliveryEventStops on DeliveryEventStops.FuelDeliveryEventID = FuelDeliveryEvent.FuelDeliveryEventID
 where DeliveryTime between "2016-10-30" and "2017-10-31"
 order by
 FuelDeliveredPercent desc
 limit 10;
+
+select StopID, AVG(FuelDeliveredPercent) as "Average Delivery"
+from FuelDeliveryEvent 
+inner join DeliveryEventStops on DeliveryEventStops.FuelDeliveryEventID = FuelDeliveryEvent.FuelDeliveryEventID
+where DeliveryTime between "2017-09-01" and "2017-10-01"
+group by 
+StopID;
 
