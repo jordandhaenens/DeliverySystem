@@ -57,7 +57,7 @@ This method updates the Trucks table with the **NextStopID** for the truck match
 
 ### DatabaseInterface Class
 
-##### GET: .../Query
+#### GET: .../Query
 This method receives a query from any authorized point and converts it to a SQL 
 command. It then returns the results of the given query
 
