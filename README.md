@@ -36,11 +36,11 @@ recorded fuel stop:
 ### Trucks Controller Class
 
 GET: .../AllTrucks 
-// This method queries the DB and returns **CurrentStop**, **NextStop**(nullable), and 
+This method queries the DB and returns **CurrentStop**, **NextStop**(nullable), and 
 **CurrentFuelLevel** for all trucks
 
 POST: .../Truck/TruckID 
-// This method receives a truck's **TruckID**, **CurrentStop**, and **CurrentFuelLevel** 
+This method receives a truck's **TruckID**, **CurrentStop**, and **CurrentFuelLevel** 
 at the endstage of a stop. Using a ViewModel, it queries the DB for the truck's 
 previous CurrentFuelLevel and calculates TotalFuelDelivered for CurrentStop. It then 
 updates the appropriate tables in DB with **TruckID**, **CurrentStopID**, **FuelLevelPercent**, and 
@@ -49,16 +49,16 @@ updates the appropriate tables in DB with **TruckID**, **CurrentStopID**, **Fuel
 ### Stops Controller Class
 
 GET: .../NextStop/TruckID 
-// This method queries the DB and returns the **NextStopID** for the given **TruckID**
+This method queries the DB and returns the **NextStopID** for the given **TruckID**
 
 POST: .../NextStop/TruckID
-// This method updates the Trucks table with the **NextStopID** for the truck matching the given 
+This method updates the Trucks table with the **NextStopID** for the truck matching the given 
 **TruckID**
 
 ### DatabaseInterface Class
 
 GET: .../Query
-// This method receives a query from any authorized point and converts it to a SQL 
+This method receives a query from any authorized point and converts it to a SQL 
 command. It then returns the results of the given query
 
 
