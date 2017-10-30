@@ -1,7 +1,6 @@
 ## Assumptions 
 
 1. Trucks are limited to a single operating region each
-1. One truck per operating region
 1. Truck capacities will be static
 1. Desktop App design requirements still need to be discussed with PO
 1. The burden on the dispatcher could be greatly relieved by uploading predetermined routes
@@ -21,7 +20,7 @@ Describe how we will store and retrieve information from a SQL database for a
 recorded fuel stop:
 
     The WebService API will be the gateway to the SQL database. It could have one, two,
-    or three interfaces to controll specific requests to the DB. In my diagram I have listed
+    or three interfaces to control specific requests to the DB. In my diagram I have listed
     three interfaces to create an additional layer of abstraction and separation of duties, 
     however, you could just as easily have all of these methods live in a single controller on 
     the API.
@@ -42,7 +41,7 @@ This method queries the DB and returns **CurrentStopID**, **NextStopID**(nullabl
 #### POST: .../Truck/TruckID
 This method receives a truck's **TruckID**, **CurrentStopID**, and **FuelLevelPercent** 
 at the endstage of a stop. Using a ViewModel, it queries the DB for the truck's 
-previous CurrentFuelLevel and calculates TotalFuelDelivered for CurrentStop. It then 
+previous FuelLevelPercent and calculates TotalFuelDelivered for CurrentStopID. It then 
 updates the appropriate tables in DB with **TruckID**, **CurrentStopID**, **FuelLevelPercent**, and 
 **FuelDeliveredPercent**
 
